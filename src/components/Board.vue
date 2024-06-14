@@ -1,21 +1,29 @@
 <script setup>
 import Pegs from './Pegs.vue';
-import { computed, ref, watch, watchEffect } from 'vue';
-const colors = ref(['red', 'blue', 'green', 'yellow', '#111', '#eee'])
-const props = defineProps({ customs: Object, 'activeLine': Number, 'actualColors': Array });
+import { computed, ref, watch } from 'vue';
+const props = defineProps({ customs: Object, 'activeLine': Number, 'actualColors': Array, orientation: String });
 const emit = defineEmits(['incrementLine', 'setWon'])
 const activeColors = ref(Array(props.customs.numPegs).fill(-1));
 
 const selectedColor = ref(0)
 
-const lineStyle = computed(() => ({
-    aspectRatio: `1 / ${Math.ceil(props.customs.numPegs / 2) * 0.5 + props.customs.numPegs}`,
-    maxWidth: `calc(100% / ${props.customs.numLines})`
-}))
+const lineStyle = computed(() => (props.orientation === 'landscape') ?
+    {
+        aspectRatio: `1 / ${Math.ceil(props.customs.numPegs / 2) * 0.5 + props.customs.numPegs}`,
+        maxWidth: `calc(100% / ${props.customs.numLines})`,
+        maxHeight: 'unset'
+    } :
+    {
+        aspectRatio: `${Math.ceil(props.customs.numPegs / 2) * 0.5 + props.customs.numPegs} / 1`,
+        maxHeight: `calc(100% / ${props.customs.numLines})`,
+        maxWidth: 'unset'
+    }
+)
 
-const pinsStyle = computed(() => ({
-    aspectRatio: `1 / ${Math.ceil(props.customs.numPegs / 2) * 0.5}`
-}))
+const pinsStyle = computed(() => (props.orientation === 'landscape') ?
+    { aspectRatio: `1 / ${Math.ceil(props.customs.numPegs / 2) * 0.5}` } :
+    { aspectRatio: `${Math.ceil(props.customs.numPegs / 2) * 0.5} / 1` }
+)
 
 const data = ref([])
 
@@ -82,7 +90,7 @@ watch(() => props.actualColors, () => {
 
 <template>
 
-    <div class="board">
+    <div :class="{ portrait: orientation === 'portrait', board: true }">
         <template v-for="i in customs.numLines">
             <div :class="{ active: i === activeLine, line: true }" :style="lineStyle">
                 <div class="pins" :style="pinsStyle">
@@ -114,7 +122,7 @@ watch(() => props.actualColors, () => {
             </div>
         </template>
     </div>
-    <Pegs :customs="customs" :selectedColor="selectedColor" @setSelectedColor="setSelectedColor"
+    <Pegs :customs="customs" :orientation="orientation" :selectedColor="selectedColor" @setSelectedColor="setSelectedColor"
         @checkLine="checkLine" />
 </template>
 
@@ -129,12 +137,21 @@ watch(() => props.actualColors, () => {
     justify-content: space-between;
 }
 
+.portrait.board {
+    flex-direction: column;
+}
+
 .line {
-    height: 100%;
+    /* height: 100%; */
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.portrait .line {
+    flex-direction: row;
 }
 
 .active.line {
@@ -150,11 +167,22 @@ watch(() => props.actualColors, () => {
     align-items: center;
 }
 
+.portrait .pins {
+    height: 96%;
+    width: unset;
+    flex-direction: column;
+}
+
 .pin {
     aspect-ratio: 1;
     border-radius: 50%;
     width: 40%;
     box-shadow: 3px 3px 2px #00000080;
+}
+
+.portrait .pin {
+    height: 40%;
+    width: unset;
 }
 
 .exact {
@@ -174,14 +202,29 @@ watch(() => props.actualColors, () => {
     margin: 5% 0;
 }
 
+.portrait .blank {
+    width: unset;
+    height: 35%;
+    margin: 0;
+}
+
 .slot .blank {
     width: 40%;
+}
+
+.portrait .slot .blank {
+    width: unset;
 }
 
 .slot-container {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.portrait .slot-container {
+    height: 100%;
+    width: unset;
 }
 
 .slot {
@@ -195,6 +238,11 @@ watch(() => props.actualColors, () => {
     transition: all 0.2s;
 }
 
+.portrait .slot {
+    height: 94%;
+    width: unset;
+}
+
 .active.slot:hover {
     box-shadow: 0 0 3px 3px #fff;
 }
@@ -206,5 +254,10 @@ watch(() => props.actualColors, () => {
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, pink, #00000080);
     box-shadow: 6px 6px 4px 0 #00000080;
+}
+
+.portrait .peg{
+    height: 80%;
+    width: unset;
 }
 </style>

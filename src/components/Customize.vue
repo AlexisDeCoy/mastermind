@@ -68,10 +68,6 @@ section {
     justify-content: center;
 }
 
-.label {
-    height: 7%;
-}
-
 .input {
     height: 60%;
     display: flex;

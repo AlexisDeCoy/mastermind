@@ -1,8 +1,23 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import Board from './components/Board.vue'
 import Customize from './components/Customize.vue'
 import Pop from './components/Pop.vue';
+
+//Window Orientation
+const orientation = ref(window.innerHeight > window.innerWidth ? 'portrait' : 'landscape')
+const boardKey = ref(0)
+
+window.addEventListener('resize', () => {
+  if (orientation.value === 'portrait' && window.innerHeight <= window.innerWidth) {
+    orientation.value = 'landscape'
+    boardKey.value = boardKey.value + 1
+  }
+  else if (orientation.value === 'landscape' && window.innerHeight > window.innerWidth) {
+    orientation.value = 'portrait'
+    boardKey.value = boardKey.value + 1
+  }
+})
 
 //Customizations
 const customs = ref({
@@ -17,7 +32,6 @@ const customs = ref({
 const won = ref(false)
 const activeLine = ref(1)
 const actualColors = ref(setActual())
-const boardKey = ref(0)
 
 watch(actualColors, () => console.log(actualColors.value))
 
@@ -71,7 +85,6 @@ function setWon() {
 }
 
 function newGame() {
-  console.log('set')
   actualColors.value = setActual()
   activeLine.value = 1
   won.value = false
@@ -81,11 +94,12 @@ function newGame() {
 
 <template>
   <main>
-    <Board :key="boardKey" :customs="customs" :activeLine="activeLine"
-      :actualColors="actualColors" @incrementLine="incrementLine" @setWon="setWon" />
-    <Customize v-if="activeLine <= customs.numLines && !won" :customs="customs" @setIncludeBlanks="setIncludeBlanks" @setNumColors="setNumColors"
-      @setNumLines="setNumLines" @setNumPegs="setNumPegs" @setColor="setColor" />
-    <Pop v-else :customs="customs" :actualColors="actualColors" :activeLine="activeLine" :won="won" @newGame="newGame" />
+    <Board :key="boardKey" :customs="customs" :activeLine="activeLine" :actualColors="actualColors"
+      :orientation="orientation" @incrementLine="incrementLine" @setWon="setWon" />
+    <Customize v-if="activeLine <= customs.numLines && !won" :customs="customs" @setIncludeBlanks="setIncludeBlanks"
+      @setNumColors="setNumColors" @setNumLines="setNumLines" @setNumPegs="setNumPegs" @setColor="setColor" />
+    <Pop v-else :customs="customs" :actualColors="actualColors" :activeLine="activeLine" :orientation="orientation" :won="won"
+      @newGame="newGame" />
   </main>
 </template>
 

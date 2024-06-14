@@ -1,10 +1,9 @@
 <script setup>
-import { ref } from 'vue';
-const props = defineProps({ 'customs': Object, 'selectedColor': Number })
+const props = defineProps({ 'customs': Object, 'orientation': String, 'selectedColor': Number })
 </script>
 
 <template>
-    <div class="pegs">
+    <div :class="{portrait: orientation === 'portrait', pegs: true}">
         <template v-for="i in customs.numColors">
             <input type="button" :class="{ active: i - 1 === props.selectedColor, peg: true }"
                 @click="$emit('setSelectedColor', i - 1)"
@@ -24,6 +23,13 @@ const props = defineProps({ 'customs': Object, 'selectedColor': Number })
     width: 100vw;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    align-items: end;
+    height: 20%;
+}
+
+.portrait.pegs {
+    bottom: 10%;
 }
 
 .peg {
@@ -35,6 +41,11 @@ const props = defineProps({ 'customs': Object, 'selectedColor': Number })
     box-shadow: 6px 6px 4px 0 #00000080;
     transition: all 0.5s;
     transform-origin: center;
+}
+
+.portrait .peg {
+    width: 10%;
+    min-width: 50px;
 }
 
 .peg:hover,
