@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+        <radialGradient id="checkGradient" cx='30%' cy='30%' r='100%' gradientUnits='userSpaceOnUse'>
+            <stop offset="0%" stop-color="#fff" />
+            <stop offset="15%" stop-color="limegreen" />
+            <stop offset="100%" stop-color="#000" />
+        </radialGradient>
+    </defs>
+    <path
+        d="M 100 50 A 50 50 0 0 1 50 100 A 50 50 0 0 1 0 50 A 50 50 0 0 1 50 0 A 50 50 0 0 1 100 50 Z"
+        fill='url(#checkGradient)'
+    />
+    <path
+        d="M 20 50 A 90 90 0 0 1 50 85 A 150 150 0 0 1 76 26 L 64 18 A 150 150 0 0 0 46 60 A 90 90 0 0 0 30 41 Z"
+        fill='white'
+    />
+</svg>

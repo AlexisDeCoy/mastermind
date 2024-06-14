@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path
+        d="M 10 5 L 90 50 L 10 95 Z M 25 45 L 35 45 L 35 35 L 45 35 L 45 45 L 55 45 L 55 55 L 45 55 L 45 65 L 35 65 L 35 55 L 25 55 Z"
+        fill='#fff'
+        fill-rule='evenodd'
+    />
+    <!-- <path
+        d="M 25 45 L 35 45 L 35 35 L 45 35 L 45 45 L 55 45 L 55 55 L 45 55 L 45 65 L 35 65 L 35 55 L 25 55 Z"
+        fill='#181818'
+    /> -->
+</svg>
