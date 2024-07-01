@@ -13,6 +13,6 @@ The goal of this project was to give me a way to practice the game, since I star
 - I used CSS radial gradients to shade the pegs, using template literals to apply them through inline styling.
 - All data was tracked using refs and computed variables, which are both a part of Vue.
 
-  ## Next Steps
+## Next Steps
   
 Since this was a fast project with small goals, there aren't many things that I want to change. If anything, I would like to make the game more mobile friendly and further style to make it more exciting to look at.
